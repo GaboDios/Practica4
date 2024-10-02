@@ -21,6 +21,10 @@ public class Servidor {
         pisos.add(piso);
     }
 
+    public List<Piso> getPisos() {
+        return pisos;
+    }
+
     public void procesarCola() {
         while (!impresora.getEstado().equals("libre")) {
             SolicitudImpresion solicitud = impresora.procesarTrabajo();
