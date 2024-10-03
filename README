@@ -9,6 +9,7 @@ Práctica: Práctica 4
 Sistema operativo utilizado: Se ha utilizado Linux para realizar la práctica, con la versión de Java "21.0.4".
 
 Para ejecutar el programa, escriba en la terminal: javac *.java y luego java ctOS.
+ctOS.java es el main
 
 Patrones de diseño utilizados:
 
