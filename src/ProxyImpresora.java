@@ -1,20 +1,23 @@
-public class ProxyImpresora {
-    private Impresora impresoraReal;
+import java.util.concurrent.BlockingQueue;
 
-    public ProxyImpresora(Impresora impresoraReal) {
-        this.impresoraReal = impresoraReal;
+public class ProxyImpresora {
+    private Impresora impresora;
+    private BlockingQueue<SolicitudImpresion> colaImpresion;
+
+    public ProxyImpresora(Impresora impresora, BlockingQueue<SolicitudImpresion> colaImpresion) {
+        this.impresora = impresora;
+        this.colaImpresion = colaImpresion;
     }
 
     public void imprimir(SolicitudImpresion solicitud) {
-        if (verificarPermisos(solicitud.getEmpleado(), solicitud)) {
-            impresoraReal.agregarTrabajo(solicitud);
-            System.out.println("Solicitud de impresión aceptada.");
-        } else {
-            System.out.println("Permiso denegado para imprimir a color.");
+        try {
+            colaImpresion.put(solicitud);  // Añadir solicitud a la cola
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
-    private boolean verificarPermisos(Empleado empleado, SolicitudImpresion solicitud) {
-        return empleado.tienePermisoColor() || solicitud.getTipoImpresion().equals("blanco y negro");
+    private boolean verificarPermisos(Area areaSolicita, SolicitudImpresion solicitud) {
+        return areaSolicita.tienePermisoColor() || solicitud.getTipoImpresion().equals("blanco y negro");
     }
 }

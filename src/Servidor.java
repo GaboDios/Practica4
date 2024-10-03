@@ -1,18 +1,24 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
+
 public class Servidor {
     private static Servidor instancia;
     private List<Piso> pisos;
     private Impresora impresora;
+    private BlockingQueue<SolicitudImpresion> colaImpresion;  // Cola de trabajos de impresión
 
-    private Servidor() {
+    // Constructor modificado para aceptar la cola de impresión
+    private Servidor(BlockingQueue<SolicitudImpresion> colaImpresion) {
         this.pisos = new ArrayList<>();
-        this.impresora = new Impresora();
+        this.impresora = Impresora.getInstancia();  // Usar el patrón Singleton para obtener la impresora
+        this.colaImpresion = colaImpresion;  // Asignar la cola externa
     }
 
-    public static synchronized Servidor getInstancia() {
+    // Método modificado para obtener la instancia con cola de impresión
+    public static synchronized Servidor getInstancia(BlockingQueue<SolicitudImpresion> colaImpresion) {
         if (instancia == null) {
-            instancia = new Servidor();
+            instancia = new Servidor(colaImpresion);
         }
         return instancia;
     }
@@ -25,12 +31,15 @@ public class Servidor {
         return pisos;
     }
 
+    // Método que procesa la cola externa de solicitudes de impresión
     public void procesarCola() {
-        while (!impresora.getEstado().equals("libre")) {
-            SolicitudImpresion solicitud = impresora.procesarTrabajo();
-            if (solicitud != null) {
-                System.out.println("Procesando trabajo de: " + solicitud.getEmpleado().getNombre());
+        try {
+            while (true) {
+                SolicitudImpresion solicitud = colaImpresion.take();  // Bloquea hasta que haya una solicitud disponible
+                impresora.procesarTrabajo(solicitud);  // Pasa la solicitud a la impresora
             }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 }

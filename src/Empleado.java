@@ -3,14 +3,12 @@ public class Empleado {
     private String rfc;
     private Area areaTrabajo;
     private Piso pisoTrabajo;
-    private boolean permisoColor;
 
-    public Empleado(String nombre, String rfc, Area areaTrabajo, Piso pisoTrabajo, boolean permisoColor) {
+    public Empleado(String nombre, String rfc, Area areaTrabajo, Piso pisoTrabajo) {
         this.nombre = nombre;
         this.rfc = rfc;
         this.areaTrabajo = areaTrabajo;
         this.pisoTrabajo = pisoTrabajo;
-        this.permisoColor = permisoColor;
     }
 
     public String getNombre() {
@@ -29,7 +27,4 @@ public class Empleado {
         return pisoTrabajo;
     }
 
-    public boolean tienePermisoColor() {
-        return permisoColor;
-    }
 }
