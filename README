@@ -1,1 +1,19 @@
-REAMDE para práctica 04
+Nombre del Equipo: Los Hijos de Korhal
+Integrantes del Equipo:
+
+Pedro Yamil Salazar González - 306037445
+Gabriel Díaz Payne - 317097560
+Isaac Rivera Jiménez - 321225087
+Práctica: Práctica 4
+
+Sistema operativo utilizado: Se ha utilizado Linux para realizar la práctica, con la versión de Java "21.0.4".
+
+Para ejecutar el programa, escriba en la terminal: javac *.java y luego java Main.
+
+Patrones de diseño utilizados:
+
+Singleton: Este patrón se ha implementado mediante el uso de la clase Impresora, que permite generar una unica instancia de la impresora. Esto asegura el flujo de su uso. Al usar Singleton permite un uso compartido sin necesidad de tener mas de una instancia en otras clases. De esta forma garantiza que el Servidor pueda manejar multiples hilos de manera segura
+
+Proxy: El patrón Proxy se utiliza a través de la clase ProxyImpresora, que permite establecer una conexion de la impresora con respecto a los empleados. Que tiene como proposito controlar el acceso a un objeto, en este caso, la impresora. Verifica si un empleado tiene permiso para realizar impresiones en color antes de aceptar la solicitud y agregarla a la cola de impresion. Al actuar como intermediario, el proxy puede realizar validaciones antes de permitir el acceso a los recursos. El uso de una cola bloqueante asegura que las solicitudes sean gestionadas correctamente en un entorno multihilo.
+
+Se hace uso de hilos en un mismo instante para simular la ejecucion en dos lugares distintos, se especifican los casos de uso en cada una de las formas a imprimir dependiendo el tipo de area que este asociado a cada empleado. Se hace uso de concurrencia para el procesamiento de solicitudes que se desarrollan en el mismo intervalo de tiempo, pero que no necesariamente están progresando en el mismo instante.
