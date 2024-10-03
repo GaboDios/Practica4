@@ -8,7 +8,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author Gabo, Pedro Yamil, Isaac (Los Hijos de Korhal)
  */
 public class ctOS {
-
     /**
      * Método principal que configura el sistema de impresión, agregando pisos, empleados, y
      * ejecutando las solicitudes de impresión. Registra eventos a través de un log y procesa
@@ -56,6 +55,13 @@ public class ctOS {
                     SolicitudImpresion solicitudBN = new SolicitudImpresion(empleado, "blanco y negro");
                     proxy.imprimir(solicitudBN);
                     log.registrarEvento("[" + Thread.currentThread().getName() + "]Solicitud de impresión blanco y negro agregada por " + empleado.getNombre() + " en " + piso.getNombrePiso());
+
+                    // Añadir un retraso simulado para que no se generen todas las solicitudes al mismo tiempo
+                    try {
+                        Thread.sleep(500);  // Retraso de 0.5 segundos entre solicitudes
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                 }
             }
         });
@@ -76,7 +82,6 @@ public class ctOS {
 
         impresoraThread.start();
 
-
         // Espera a que los hilos finalicen tras 60 segundos
         try {
             Thread.sleep(60000);
@@ -93,15 +98,10 @@ public class ctOS {
         // Muestra el historial de eventos en el log
         System.out.println("Historial del log de la impresora:");
         System.out.println("##################################");
-        System.out.println("##################################");
-        System.out.println("##################################");
         for (String evento : log.getHistorial()) {
             System.out.println(evento);
         }
         System.out.println("##################################");
-        System.out.println("##################################");
-        System.out.println("##################################");
-
     }
 
     /**
